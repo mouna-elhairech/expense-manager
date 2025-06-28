@@ -29,8 +29,7 @@ import { Depenses } from './entities/entities/Depenses';
 import { Recus } from './entities/entities/Recus';
 import { OcrProcessing } from './entities/entities/OcrProcessing';
 import { Category } from './categories/entities/category.entity';
-// ❌ SUPPRIMÉ : import { NlpCategorization } from './categories/entities/nlp-categorization.entity';
-import { NlpCategorization } from './entities/entities/NlpCategorization'; // ✅ Le bon chemin
+import { NlpCategorization } from './entities/entities/NlpCategorization';
 import { ReimbursementRequest } from './entities/entities/ReimbursementRequest';
 import { Commentaires } from './entities/entities/Commentaires';
 import { Notifications } from './entities/entities/notifications';
@@ -64,15 +63,12 @@ import { ResetToken } from './entities/entities/ResetToken';
     }),
 
     TypeOrmModule.forRootAsync({
-      imports: [ConfigModule],
-      inject: [ConfigService],
-      useFactory: (configService: ConfigService) => ({
+      useFactory: () => ({
         type: 'postgres',
-        host: configService.get('DB_HOST', 'localhost'),
-        port: +configService.get('DB_PORT', 5432),
-        username: configService.get('DB_USERNAME', 'postgres'),
-        password: configService.get('DB_PASSWORD', 'manani'),
-        database: configService.get('DB_DATABASE', 'expense_manager'),
+        url: process.env.DATABASE_URL,
+        ssl: {
+          rejectUnauthorized: false,
+        },
         entities: [
           Users,
           Roles,
