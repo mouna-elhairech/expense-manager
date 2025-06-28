@@ -66,15 +66,12 @@ AppModule = __decorate([
                 }),
             }),
             typeorm_1.TypeOrmModule.forRootAsync({
-                imports: [config_1.ConfigModule],
-                inject: [config_1.ConfigService],
-                useFactory: (configService) => ({
+                useFactory: () => ({
                     type: 'postgres',
-                    host: configService.get('DB_HOST', 'localhost'),
-                    port: +configService.get('DB_PORT', 5432),
-                    username: configService.get('DB_USERNAME', 'postgres'),
-                    password: configService.get('DB_PASSWORD', 'manani'),
-                    database: configService.get('DB_DATABASE', 'expense_manager'),
+                    url: process.env.DATABASE_URL,
+                    ssl: {
+                        rejectUnauthorized: false,
+                    },
                     entities: [
                         Users_1.Users,
                         Roles_1.Roles,
