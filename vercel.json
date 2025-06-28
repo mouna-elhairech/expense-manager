@@ -1,0 +1,11 @@
+// ⬅️ at /vercel.json (alongside package.json, before any subfolder)
+{
+  "version": 2,
+  "rootDirectory": "expense-manager-backend/expense-manager-frontend",
+  "builds": [
+    {
+      "src": "expense-manager-backend/expense-manager-frontend/package.json",
+      "use": "@vercel/next"
+    }
+  ]
+}
