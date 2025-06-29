@@ -1,6 +1,6 @@
 // Polyfill global.crypto pour Node 18 (nécessaire à TypeORM)
 import * as nodeCrypto from 'crypto';
-(global as any).crypto = nodeCrypto;
+;(global as any).crypto = nodeCrypto;
 
 import { NestFactory } from '@nestjs/core';
 import {
@@ -34,13 +34,13 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe({ whitelist: true, transform: true }));
   app.useGlobalFilters(new AllExceptionsFilter());
 
+  // Seed automatique
   try {
     const rolesService = app.get(RolesService);
     await rolesService.ensureBasicRolesExist();
   } catch (error) {
     console.error('❌ Erreur lors de la création des rôles :', error);
   }
-
   try {
     const categorySeeder = app.get(CategoriesSeeder);
     await categorySeeder.seed();
@@ -48,10 +48,10 @@ async function bootstrap() {
     console.error('❌ Erreur lors du seed des catégories :', error);
   }
 
-  // Healthcheck endpoint
+  // Healthcheck
   app.getHttpAdapter().get('/', (_req, res) => res.status(200).send('OK'));
 
-  // Utilisation sûre de la variable d'env PORT
+  // PORT issu de l'env (Render définit process.env.PORT)
   const port = parseInt(process.env.PORT ?? '3000', 10);
   await app.listen(port);
   console.log(`🚀 Backend is running on http://localhost:${port}`);
