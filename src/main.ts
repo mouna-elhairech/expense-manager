@@ -1,3 +1,7 @@
+// Polyfill global.crypto pour Node 18 (nécessaire à TypeORM)
+import * as nodeCrypto from 'crypto';
+(global as any).crypto = nodeCrypto;
+
 import { NestFactory } from '@nestjs/core';
 import {
   ValidationPipe,
