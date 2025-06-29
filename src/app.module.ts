@@ -84,7 +84,7 @@ import { ResetToken } from './entities/entities/ResetToken';
           Rapports,
           ResetToken,
         ],
-        synchronize: false,
+        synchronize: true,
         logging: ['query', 'error'],
         logger: 'advanced-console',
       }),
