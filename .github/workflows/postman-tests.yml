@@ -1,0 +1,29 @@
+name: Tests fonctionnels Postman
+
+on:
+  pull_request:
+
+jobs:
+  postman:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout du code
+        uses: actions/checkout@v3
+
+      - name: Installer Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+
+      - name: Installer Newman
+        run: npm install -g newman
+
+      - name: Exécuter la collection Postman
+        run: |
+          # si votre collection est dans postman/collection.json
+          newman run postman/collection.json --reporters cli
+
+      - name: Afficher la couverture
+        if: ${{ failure() }}
+        run: echo "Des tests ont échoué 😱"
